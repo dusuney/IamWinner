@@ -1,0 +1,191 @@
+﻿<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Ответы</h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <br />
+                <div class="form-horizontal form-label-left">
+
+                    <div class="form-group" ng-class="{ 'field-invalid': selectAnswerCtrl.FieldValidation.isInvalidField(form, 'answerType') }">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                            Ответы
+                            <span class="required">*</span>
+                        </label>
+
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+
+                            <select ng-disabled="isEdit"
+                                    class="form-control col-md-7 col-xs-12" name="answerType" ng-model="task.AnswerType" required="required"
+                                    ng-options="type.id as type.name for type in selectAnswerCtrl.answersTypes"></select>
+                            <span class="text-error" ng-show="selectAnswerCtrl.FieldValidation.isInvalidRequiredField(form, 'answerType')">Это обязательное поле</span>
+                        </div>
+                    </div>
+                    <div ng-if="task.AnswerType==1">
+                        <div ng-repeat="answer in task.Options1Of4 track by $index">
+                            <br />
+                            <div class="form-group"
+                                 ng-class="{ 'field-invalid': selectAnswerCtrl.FieldValidation.isInvalidField(form, 'variant'+{{$index}}) }">
+                                <label for="varian1" class="control-label col-md-3 col-sm-3 col-xs-12">
+                                    Вариант
+                                    {{$index+1}}
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                    <div text-angular="text-angular"
+                                         id="variant{{$index}}"
+                                         ta-toolbar="selectAnswerCtrl.toolbar"
+                                         required
+                                         name="variant{{$index}}"
+                                         ng-model="answer.Text"
+                                         ta-disabled='disabled'
+                                         ta-paste="selectAnswerCtrl.handlers.onPaste($html)"></div>
+
+                                    <span class="text-error" ng-show="selectAnswerCtrl.FieldValidation.isInvalidRequiredField(form, 'variant'+{{$index}})">Это обязательное поле</span>
+                                    <span class="text-error" ng-show="isInvalidLengthField({field:'variant'+{{$index}}, limit:4000})">Доступно не более 4000 символов</span>
+
+                                    <div class="custom-radio radio">
+                                        <label>
+                                            <input required type="radio" class="flat"
+                                                   ng-model="selectAnswerCtrl.selectedValue"
+                                                   name="radio" ng-change="selectAnswerCtrl.setCorrectAnswer($index, task.Options1Of4)"
+                                                   value="{{$index+1}}"
+                                                   ng-disabled="isEdit">
+                                            <div class="bg"></div>
+                                            <div>
+                                                Верный ответ
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div ng-class="{ 'field-invalid': selectAnswerCtrl.FieldValidation.isInvalidField(form, 'radio') }">
+                                        <span class="text-error" ng-show="selectAnswerCtrl.FieldValidation.isInvalidRequiredField(form, 'radio')">Выберете один из вариантов</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 col-sm-offset-3">
+                                    <div class="ln_solid"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="task.AnswerType==2">
+                        <br />
+                        <div class="form-group" ng-repeat="answer in task.OptionsFewOf5 track by $index"
+                             ng-class="{ 'field-invalid': selectAnswerCtrl.FieldValidation.isInvalidField(form, 'variant'+{{$index}}) }">
+                            <label for="varian1" class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Вариант
+                                {{$index+1}}
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div text-angular="text-angular"
+                                     id="variant{{$index}}"
+                                     ta-toolbar="selectAnswerCtrl.toolbar"
+                                     required
+                                     name="variant{{$index}}"
+                                     ng-model="answer.Text"
+                                     ta-paste="selectAnswerCtrl.handlers.onPaste($html)"
+                                     ta-disabled='disabled'
+                                     ></div>
+
+                                <span class="text-error" ng-show="selectAnswerCtrl.FieldValidation.isInvalidRequiredField(form, 'variant'+{{$index}})">Это обязательное поле</span>
+                                <span class="text-error" ng-show="isInvalidLengthField({field:'variant'+{{$index}}, limit:4000})">Доступно не более 4000 символов</span>
+
+                                <div class="custom-checkbox checkbox">
+                                    <label>
+                                        <input type="checkbox"
+                                               name="check{{$index}}"
+                                               class="flat"
+                                               ng-model="answer.IsCorrect"
+                                               ng-required="!selectAnswerCtrl.someSelected()"
+                                               ng-disabled="isEdit">
+                                        <div class="bg"></div>
+                                        <div>Верный ответ</div>
+                                    </label>
+                                </div>
+                                <div ng-class="{ 'field-invalid': selectAnswerCtrl.FieldValidation.isInvalidField(form, 'check'+{{$index}}) }">
+                                    <span class="text-error"
+                                          ng-show="selectAnswerCtrl.FieldValidation.isInvalidRequiredField(form, 'check'+$index)">Выберете подходящие варианты</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 col-sm-offset-3">
+                                <div class="ln_solid"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-if="task.AnswerType==3">
+                        <div class="form-group" ng-repeat="answer in task.Answers track by $index"
+                             ng-class="{ 'field-invalid': selectAnswerCtrl.FieldValidation.isInvalidField(form, 'answer'+$index) }">
+                            <label for="hint" class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Ответ в строку
+                                <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" id="point" required
+                                       name="answer{{$index}}"
+                                       class="form-control col-md-7 col-xs-12"
+                                       ng-model="answer.Value">
+                                <span class="text-error" ng-show="selectAnswerCtrl.FieldValidation.isInvalidRequiredField(form, 'answer'+$index)">Это обязательное поле</span>
+                                <span class="text-error" ng-show="isInvalidLengthField({field:'answer'+{{$index}}, limit:4000})">Доступно не более 4000 символов</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div ng-if="task.AnswerType==4">
+                        <div ng-repeat="answer in task.Options1Of5 track by $index">
+                            <br />
+                            <div class="form-group"
+                                 ng-class="{ 'field-invalid': selectAnswerCtrl.FieldValidation.isInvalidField(form, 'variant'+{{$index}}) }">
+                                <label for="varian1" class="control-label col-md-3 col-sm-3 col-xs-12">
+                                    Вариант
+                                    {{$index+1}}
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                    <div text-angular="text-angular"
+                                         id="variant{{$index}}"
+                                         ta-toolbar="selectAnswerCtrl.toolbar"
+                                         required
+                                         name="variant{{$index}}"
+                                         ng-model="answer.Text"
+                                         ta-paste="selectAnswerCtrl.handlers.onPaste($html)"
+                                         ta-disabled='disabled'
+                                         ></div>
+                                    <span class="text-error" ng-show="selectAnswerCtrl.FieldValidation.isInvalidRequiredField(form, 'variant'+{{$index}})">Это обязательное поле</span>
+                                    <span class="text-error" ng-show="isInvalidLengthField({field:'variant'+{{$index}}, limit:4000})">Доступно не более 4000 символов</span>
+                                    <div class="custom-radio radio">
+                                        <label>
+                                            <input required type="radio" class="flat"
+                                                   ng-model="selectAnswerCtrl.selectedValue"
+                                                   name="radio" ng-change="selectAnswerCtrl.setCorrectAnswer($index, task.Options1Of5)"
+                                                   value="{{$index+1}}"
+                                                   ng-disabled="isEdit">
+                                            <div class="bg"></div>
+                                            <div>
+                                                Верный ответ
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div ng-class="{ 'field-invalid': selectAnswerCtrl.FieldValidation.isInvalidField(form, 'radio') }">
+                                        <span class="text-error" ng-show="selectAnswerCtrl.FieldValidation.isInvalidRequiredField(form, 'radio')">Выберете один из вариантов</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 col-sm-offset-3">
+                                    <div class="ln_solid"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

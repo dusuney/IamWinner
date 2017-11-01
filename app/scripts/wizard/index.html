@@ -1,0 +1,231 @@
+<div class="wizard-page">
+    <div class="page-title">
+        <div class="title_left">
+            <h1>Визард</h1>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>
+                        {{wizardCtrl.wizardService.StudentWork.Taskset.TaskSetType | TaskSetTypes}}:
+                        {{wizardCtrl.wizardService.StudentWork.Taskset.Title}}
+                        <small>
+                            Уровень: {{wizardCtrl.wizardService.StudentWork.Taskset.Difficulty | Difficulties}},
+                            {{wizardCtrl.wizardService.StudentWork.Taskset.Class | Classes}} класс
+                        </small>
+                    </h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+
+
+                    <!-- STEP SELECTOR -->
+
+                    <div id="wizard" class="form_wizard wizard_horizontal">
+                        <br />
+                        <ul class="wizard_steps">
+                            <li ng-repeat="step in wizardCtrl.wizardService.StudentWork.Entries track by $index">
+                                <a href="" ng-class="{
+                                   'selected':wizardCtrl.wizardService.isSelectedStep(step),
+                                   'done':wizardCtrl.wizardService.isDone(step)}"
+                                   ng-click="wizardCtrl.wizardService.onStep($index)">
+                                    <span class="step_no">
+                                        <span ng-class="step.AnswerType | AnswerTypeIconClass"></span>
+                                    </span>
+                                    <span class="step_descr">
+                                        Задание &nbsp; {{$index+1}}<br />
+                                        <small>{{step.Title}}</small>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="" ng-class="{
+                                   'selected':wizardCtrl.wizardService.isSelectedFinish()}"
+                                   ng-click="wizardCtrl.wizardService.onFinish()">
+                                    <span class="step_no">
+                                        <i class="fa fa-flag-checkered"></i>
+                                    </span>
+                                    <span class="step_descr">
+                                        Finish
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="finishContainer" ng-if="wizardCtrl.wizardService.isSelectedFinish()">
+                        <br />
+                        <div class="totalInfo" ng-if="!wizardCtrl.wizardService.isFinished()">
+                            <h3>Не завершено</h3>
+                            <p>
+                                Вы дали ответы на {{wizardCtrl.wizardService.getFinishedCount()}}/{{wizardCtrl.wizardService.StudentWork.Entries.length}} заданий.
+                            </p>
+                            <button ng-click="wizardCtrl.wizardService.onFinishWork()"
+                                    class="buttonFinish btn btn-default">
+                                Завершить
+                            </button>
+
+                            <p>
+                                За незаконченные задания баллы не будут начислены.
+                            </p>
+                            <br />
+                        </div>
+
+                        <div class="totalInfo" ng-if="wizardCtrl.wizardService.isFinished()">
+                            <h3>Завершено</h3>
+                            <p>Поздравляем {{wizardCtrl.wizardService.StudentWork.Fio}} c прохождением {{wizardCtrl.wizardService.StudentWork.Taskset.Title}}.</p>
+                            <button ng-click="wizardCtrl.wizardService.onResult()"
+                                    class="buttonFinish btn btn-default">
+
+                                Результаты
+                            </button>
+
+                            <p>
+                                Ваш результат составил {{wizardCtrl.wizardService.getMarkProgress()}} балла
+                            </p>
+                        </div>
+                        <br />
+                    </div>
+
+                    <!---WIZARD-->
+
+                    <div id="taskBlock" class="stepContainer" ng-if="!wizardCtrl.wizardService.isSelectedFinish()">
+                        <br />
+                        <h3>{{wizardCtrl.wizardService.selectedStep.Title}}</h3>
+                        <p>Балл: {{wizardCtrl.wizardService.selectedStep.Mark}}</p>
+                        <div class="stepDescription">
+                            <div ng-model="wizardCtrl.wizardService.selectedStep.Task.Body" ta-bind="text" ta-readonly="disable"></div>
+                        </div>
+                        <br />
+                        <form name="wizardCtrl.wizardService.responseForm" class="form-horizontal form-label-left">
+
+                            <div ng-if="wizardCtrl.wizardService.selectedStep.Task.AnswerType == 1 || wizardCtrl.wizardService.selectedStep.Task.AnswerType == 4"
+                                 class="form-group"
+                                 ng-class="{ 'field-invalid': wizardCtrl.FieldValidation.isInvalidField(wizardCtrl.wizardService.responseForm, 'radio') }">
+
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-8 col-md-offset-2 block-response">
+                                        <h4>Выберите правильный ответ:</h4>
+                                        <div class="custom-radio radio" ng-repeat="option in wizardCtrl.wizardService.selectedStep.Task.Options">
+                                            <label>
+                                                <input class="flat" required type="radio" ng-model="wizardCtrl.wizardService.selectedValue.Id" name="radio"
+                                                       value="{{option.Id}}"
+                                                       ng-disabled="!wizardCtrl.wizardService.canResponde()">
+                                                <div class="bg"></div>
+                                                <div ng-model="option.Text" ta-bind="text" ta-readonly="disable"></div>
+                                            </label>
+                                        </div>
+                                        <span class="text-error"
+                                              ng-show="wizardCtrl.FieldValidation.isInvalidRequiredField(wizardCtrl.wizardService.responseForm, 'radio')">
+                                            Выберете правильный ответ
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-if="wizardCtrl.wizardService.selectedStep.Task.AnswerType == 2"
+                                 class="form-group"
+                                 ng-class="{ 'field-invalid': wizardCtrl.FieldValidation.isInvalidField(wizardCtrl.wizardService.responseForm, 'check0') }">
+
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-8 col-md-offset-2 block-response">
+                                        <h4>Выберите правильные ответы:</h4>
+                                        <div class="custom-checkbox checkbox" ng-repeat="option in wizardCtrl.wizardService.selectedStep.Task.Options">
+                                            <label>
+                                                <input type="checkbox" name="check{{$index}}" ng-model="option.IsCorrect" ng-required="!wizardCtrl.wizardService.someSelected()"
+                                                       ng-disabled="!wizardCtrl.wizardService.canResponde()">
+                                                <div class="bg"></div>
+                                                <div ng-model="option.Text" ta-bind="text" ta-readonly="disable"></div>
+                                            </label>
+                                        </div>
+                                        <span class="text-error"
+                                              ng-show="wizardCtrl.FieldValidation.isInvalidRequiredField(wizardCtrl.wizardService.responseForm, 'check0')">
+                                            Выберете правильные варианты
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-if="wizardCtrl.wizardService.selectedStep.Task.AnswerType == 3"
+                                 class="form-group"
+                                 ng-class="{ 'field-invalid': wizardCtrl.FieldValidation.isInvalidField(wizardCtrl.wizardService.responseForm, 'stringReply') }">
+
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-8 col-md-offset-2 block-response">
+                                        <h4>Введите правильный ответ:</h4>
+                                        <br />
+
+                                        <input type="text" id="string-reply" ng-model="wizardCtrl.wizardService.selectedStep.Task.Answer"
+                                               name="stringReply" required class="form-control col-md-7 col-xs-12"
+                                               ng-disabled="!wizardCtrl.wizardService.canResponde()">
+                                        <span class="text-error" ng-show="wizardCtrl.FieldValidation.isInvalidField(wizardCtrl.wizardService.responseForm, 'stringReply') ">
+                                            Это обязательное поле
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 col-md-8 col-md-offset-2">
+                                    <br />
+                                    <div ng-repeat="hint in wizardCtrl.wizardService.selectedStep.OpenedHints">
+                                        <div class="hint">
+                                            <br />
+                                            <h4>Подсказка. Штрафной бал: {{hint.Penalty}}</h4>
+                                            <div ng-model="hint.Text" ta-bind="text" ta-readonly="disable"></div>
+                                        </div>
+                                        <br />
+
+                                    </div>
+                                    <div class="buttons-controll">
+                                        <div ng-if="wizardCtrl.wizardService.canOpenHint()">
+                                            <button type="button" ng-click="wizardCtrl.wizardService.onShowHint()"
+                                                    class="showHint btn btn-default">
+                                                Показать подсказку
+                                            </button>
+                                            Штрафной бал: {{wizardCtrl.wizardService.getNextHintPenalty()}}
+                                        </div>
+                                        <br />
+                                        <button ng-click="wizardCtrl.wizardService.onReply()"
+                                                ng-if="wizardCtrl.wizardService.isLoadedStep && wizardCtrl.wizardService.isShowRespondButton()"
+                                                class="buttonResponse btn btn-success">
+                                            Ответить
+                                        </button>
+                                        <button ng-click="wizardCtrl.wizardService.onReply()"
+                                                ng-if="wizardCtrl.wizardService.isLoadedStep && wizardCtrl.wizardService.isShowUnderstandButton()"
+                                                class="buttonFinish btn btn-success">
+                                            Понял
+                                        </button>
+                                    </div>
+                                    <br/>
+                                </div>
+                            </div>
+                        </form>
+                        <pending is-loading="!wizardCtrl.wizardService.isLoadedStep"></pending>
+                    </div>
+
+                    <!---ACTION BAR-->
+                    <div class="actionBar" ng-if="wizardCtrl.wizardService.isLoadedStep">
+                        <button ng-click="wizardCtrl.wizardService.onPrevious()"
+                                class="buttonPrevious btn btn-primary"
+                                ng-disabled="!wizardCtrl.wizardService.canPrevious()">
+                            Предыдущий
+                        </button>
+                        <button ng-click="wizardCtrl.wizardService.onNext()"
+                                class="buttonNext btn btn-primary"
+                                ng-disabled="!wizardCtrl.wizardService.canNext()">
+                            Следующий
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<window-preview is-preview="wizardCtrl.isPreview" task="wizardCtrl.task"></window-preview>
+<load-image-to-editor></load-image-to-editor>
+<window></window>
+<edit-works></edit-works>

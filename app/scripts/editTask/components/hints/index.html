@@ -1,0 +1,78 @@
+﻿<div class="row hints-block">
+    <div class="col-sm-12 col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Подсказки</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <br />
+                <div class="form-horizontal form-label-left">
+                    <div ng-repeat="hint in task.Hints track by $index">
+                        <br/>
+                        <div class="form-group" ng-class="{ 'field-invalid': hintsCtrl.FieldValidation.isInvalidField(form, 'hint'+{{$index}}) }">
+                            <label for="hint" class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Подсказка
+                                <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div text-angular="text-angular"
+                                     ta-toolbar="hintsCtrl.toolbar"
+                                     id="hint{{$index}}"
+                                     required="required"
+                                     name="hint{{$index}}"
+                                     ng-model="hint.Text"
+                                     ta-paste="hintsCtrl.handlers.onPaste($html)"
+                                     ta-disabled='disabled'></div>
+                                <div>
+                                    <span class="text-error" ng-show="hintsCtrl.FieldValidation.isInvalidRequiredField(form, 'hint'+{{$index}})">Это обязательное поле</span>
+                                    <span class="text-error" ng-show="isInvalidLengthField({field:'hint'+{{$index}}, limit:4000})">Доступно не более 4000 символов</span>
+                                </div>
+                                <br/>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <button type="button" class="btn btn-default btn-circle btn-sm text"
+                                        ng-click="hintsCtrl.onMoveUpBlock($index)">
+                                    <span class="glyphicon glyphicon-arrow-up"></span>
+                                </button>
+
+                                <button type="button" class="btn btn-default btn-circle btn-sm text"
+                                        ng-click="hintsCtrl.onMoveDownBlock($index)">
+                                    <span class="glyphicon glyphicon-arrow-down"></span>
+                                </button>
+                                <button type="button" ng-click="hintsCtrl.deleteHint($index)" ng-if="!isEdit || hint.Id==-1" class="btn btn-default btn-circle btn-sm text">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </button>
+                            </div>
+
+                        </div>
+                        <div class="form-group" ng-class="{ 'field-invalid': hintsCtrl.FieldValidation.isInvalidField(form, 'mark'+{{$index}}) }">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="penaltyPoint">
+                                Штрафной
+                                балл
+                                <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input integer-input type="text" id="penaltyPoint"
+                                       name="mark{{$index}}"
+                                       class="form-control col-md-7 col-xs-12"
+                                       ng-model="hint.Penalty" required="required">
+                                <span class="text-error" ng-show="hintsCtrl.FieldValidation.isInvalidRequiredField(form, 'mark'+{{$index}})">Это обязательное поле</span>
+
+                                <div class="ln_solid"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 col-sm-offset-3">
+                                <div class="ln_solid"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-offset-3 col-sm-offset-3 col-md-6 col-sm-6 col-xs-12">
+                        <button class="btn btn-default" type="button" ng-click="hintsCtrl.addHint()">Добавить подсказку</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

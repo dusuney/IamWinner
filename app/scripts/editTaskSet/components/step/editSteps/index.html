@@ -1,0 +1,139 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Задания</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <br />
+                <div class="form-horizontal form-label-left">
+                    <div class="step-block" ng-repeat="step in taskSet.Steps track by $index">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <h4>Задание {{$index+1}}</h4>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6" ng-if="!isPreview">
+                                <div class="controls-step">
+                                    <button type="button" class="btn btn-default btn-circle btn-sm text"
+                                            ng-click="editStepCtrl.onMoveUpBlock($index)">
+                                        <span class="glyphicon glyphicon-arrow-up"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-default btn-circle btn-sm text"
+                                            ng-click="editStepCtrl.onMoveDownBlock($index)">
+                                        <span class="glyphicon glyphicon-arrow-down"></span>
+                                    </button>
+                                    <button type="button" ng-if="!isEdit" 
+                                            class="btn btn-default btn-circle btn-sm text"
+                                            ng-click="editStepCtrl.onRemoveBlock($index)">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div ng-if="columns" id="datatable-fixed-header_wrapper" class="dataTables_wrapper task-list form-inline dt-bootstrap no-footer no-select">
+                                    <table id="datatable-fixed-header" class="table table-striped dataTable no-footer" role="grid" aria-describedby="datatable-fixed-header_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th ng-repeat="column in columns"
+                                                    tabindex="0" aria-controls="datatable-fixed-header" rowspan="1" colspan="1" aria-sort="ascending"
+                                                    ng-click="taskListCtrl.panel.onSortColumn(column,$event)"
+                                                    ng-style="{'width':column.width}">
+                                                    {{column.title}}
+                                                </th>
+                                                <th>
+                                                </th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-if="taskSet.Steps[$index].Entries.length==0">
+                                                <td>Нет данных</td>
+                                            </tr>
+                                            <tr role="row" ng-click="taskListCtrl.onClickRow(row)"
+                                                ng-repeat="row in taskSet.Steps[$index].Entries track by $index">
+                                                <td ng-repeat="col in columns " ng-switch="col.columnName">
+                                                    <span ng-class="row[col.columnName] | TaskTypeIconClass"
+                                                          ng-switch-when="TaskType"></span>
+                                                    <span ng-class="row[col.columnName] | AnswerTypeIconClass"
+                                                          ng-switch-when="AnswerType">
+                                                    </span>
+
+                                                    <span ng-switch-default="">{{row[col.columnName]}}</span>
+                                                </td>
+                                                <td ng-if="!isPreview">
+                                                    <button type="button" class="pull-right btn btn-default delete-row-table-button" 
+                                                            ng-click="editStepCtrl.onRemoveTask($parent.$parent.$index, $index)">
+                                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10 col-sm-10 col-xs-10">
+                                <p>Балл: {{editStepCtrl.getStepMark(step) == null ? 'варируется' : editStepCtrl.getStepMark(step)}}</p>
+                                
+                                <!--<p>Подсказка: есть</p>-->
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-2" ng-if="!isPreview">
+                                <div class="pull-right">
+                                    <button type="button" class="btn btn-default btn-sm"
+                                            ng-click="editStepCtrl.onAddTask($index)">
+                                        Добавить вариант
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-xs-12" ng-if="!isPreview && !isEdit">
+                            <button type="button" class="btn btn-default btn-sm"
+                                    ng-click="editStepCtrl.onAddStep()">
+                                Добавить задание
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        </br>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <p>Суммарный балл: {{editStepCtrl.getTotalMark() == null ? 'варируется' : editStepCtrl.getTotalMark()}}</p>
+                            <!--<p>Подсказок: 5 на 20 баллов</p>-->
+                        </div>
+                    </div>
+                    <div class="row">
+                        </br>
+                        <div class="col-md-12" ng-class="{ 'field-invalid': editStepCtrl.isInvalidTasks() }">
+                            <span class="text-error" ng-show="editStepCtrl.isInvalidTasks()">Заполните пустые степы</span>
+                        </div>
+                        <div class="col-md-12" ng-class="{ 'field-invalid': editStepCtrl.isInvalidSteps() }">
+                            <span class="text-error" ng-show="editStepCtrl.isInvalidSteps()">Добавте степы</span>
+                        </div>
+                    </div>
+
+                    <!--Cost-->
+                    <!--<div class="form-group" ng-class="{ 'field-invalid': editStepCtrl.FieldValidation.isInvalidField(form, 'title') }">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">
+                            Стоимость
+                            <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="text" id="title"
+                                   name="title"
+                                   class="form-control col-md-7 col-xs-12"
+                                   ng-model="editStepCtrl.task.Title">
+                            <span class="text-error" ng-show="editStepCtrl.FieldValidation.isInvalidRequiredField(form, 'title')">Это обязательное поле</span>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

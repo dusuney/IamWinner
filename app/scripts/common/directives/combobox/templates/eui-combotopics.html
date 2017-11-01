@@ -1,0 +1,9 @@
+<div class="eui-combobox-topics-row eui-combobox-panel-row">
+    <div class="eui-button-group">
+        <button type="button"
+            class="eui-button eui-m-small-text"
+            ng-class="[theme, topic.isSelected ? 'eui-s-pressed' : '']"
+            ng-click="selectTopic(topic)"
+            ng-repeat="topic in items">{{ topic.displayText }}</button>
+    </div>
+</div>

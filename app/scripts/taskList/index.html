@@ -1,0 +1,116 @@
+﻿<div class="row task-list-page">
+    <div class="col-md-12">
+        <div class="x_panel">
+
+            <div class="x_content">
+
+                <div id="datatable-fixed-header_wrapper" class="dataTables_wrapper task-list form-inline dt-bootstrap no-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="datatable-fixed-header_filter" class="dataTables_filter">
+                                <div class="input-group">
+                                    <input type="text" ng-model="taskListCtrl.panel.keyword" class="form-control">
+                                    <i class="fa fa-close"
+                                       ng-if="taskListCtrl.panel.keyword"
+                                       ng-click="taskListCtrl.panel.onResetSearch()"></i>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn" ng-class="{'btn-default': !taskListCtrl.panel.keyword,
+                                      'btn-primary':taskListCtrl.panel.keyword }"
+                                                ng-disabled="!taskListCtrl.panel.keyword"
+                                                ng-click="taskListCtrl.panel.onDoSearch()">
+                                            Найти
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="datatable-fixed-header" class="table table-striped dataTable no-footer" role="grid" aria-describedby="datatable-fixed-header_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th ng-repeat="column in taskListCtrl.panel.view.table.columns"
+                                            tabindex="0" aria-controls="datatable-fixed-header" rowspan="1" colspan="1" aria-sort="ascending"
+                                            ng-click="taskListCtrl.panel.onSortColumn(column,$event)"
+                                            ng-style="{'width':column.width}"
+                                            ng-class="{'sorting':!column.sortOrder, 'sorting_asc': column.sortOrder === 'asc','sorting_desc': column.sortOrder === 'desc'}">
+                                            {{column.title}}
+                                        </th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    <tr role="row" ng-click="taskListCtrl.onClickRow(row)"
+                                        ng-repeat="row in taskListCtrl.panel.view.table.records">
+                                        <td ng-repeat="col in taskListCtrl.panel.view.table.columns " ng-switch="col.columnName"
+                                            ng-if="taskListCtrl.panel.view.table.records.length>0">
+                                            <i ng-class="row[col.columnName] | TaskTypeIconClass"
+                                               ng-switch-when="TaskType" rel="tooltip"
+                                               title="{{row[col.columnName] | TaskTypeHint}}">
+                                            </i>
+                                            <i ng-class="row[col.columnName] | AnswerTypeIconClass"
+                                               rel="tooltip"
+                                               title="{{row[col.columnName] | AnswerTypeHint}}"
+                                               ng-switch-when="AnswerType">
+                                            </i>
+                                            <div ng-switch-default="">{{row[col.columnName]}}</div>
+                                        </td>
+                                    </tr>
+                                    <tr class="no-data" ng-if="taskListCtrl.panel.view.table.records.length===0">
+                                        <td colspan="100%">Нет данных</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8 col-md-8">
+                            <div class="dataTables_info" id="datatable-fixed-header_info" role="status" aria-live="polite">
+                                Показано {{taskListCtrl.panel.pageSize <= taskListCtrl.panel.getTotalItems() ? taskListCtrl.panel.pageSize : taskListCtrl.panel.getTotalItems()}} из {{taskListCtrl.panel.getTotalItems()}} наборов
+                            </div>
+                            <div class="dataTables_length" id="datatable-fixed-header_length">
+                                <label>
+                                    Показать <select ng-change="taskListCtrl.panel.onChangePageSize()" name="datatable-fixed-header_length" aria-controls="datatable-fixed-header" class="form-control input-sm" ng-model="taskListCtrl.panel.pageSize">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select> записей
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <div class="dataTables_paginate paging_simple_numbers" id="datatable-fixed-header_paginate">
+                                <ul class="pagination">
+                                    <li class="paginate_button previous " id="datatable-fixed-header_previous"
+                                        ng-class="{'disabled':taskListCtrl.panel.getPager().currentPage === 1}">
+                                        <a href="#" aria-controls="datatable-fixed-header"
+                                           ng-disabled="taskListCtrl.panel.getPager().currentPage === 1"
+                                           ng-click="taskListCtrl.panel.setPage(taskListCtrl.panel.getPager().currentPage - 1)"
+                                           data-dt-idx="0" tabindex="0">Назад</a>
+                                    </li>
+                                    <li class="paginate_button" ng-repeat="page in taskListCtrl.panel.getPages()"
+                                        ng-class="{'active':page === taskListCtrl.panel.getPager().currentPage}">
+                                        <a href="#"
+                                           ng-click="taskListCtrl.panel.setPage(page)"
+                                           ng-disabled="page === taskListCtrl.panel.getPager().currentPage"
+                                           aria-controls="datatable-fixed-header" data-dt-idx="1" tabindex="0">{{page}}</a>
+                                    </li>
+                                    <li class="paginate_button next" id="datatable-fixed-header_next"
+                                        ng-class="{'disabled':taskListCtrl.panel.getPager().currentPage === taskListCtrl.panel.getPager().totalPages || currentTab.getPager().totalPages <= 1}">
+                                        <a href="#" aria-controls="datatable-fixed-header" data-dt-idx="7"
+                                           ng-disabled="taskListCtrl.panel.getPager().currentPage === taskListCtrl.panel.getPager().totalPages || currentTab.getPager().totalPages <= 1"
+                                           ng-click="taskListCtrl.panel.setPage(taskListCtrl.panel.getPager().currentPage + 1)"
+                                           tabindex="0">Вперед</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<pending is-loading="!taskListCtrl.panel.isLoaded"></pending>

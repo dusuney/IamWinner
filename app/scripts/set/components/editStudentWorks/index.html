@@ -1,0 +1,78 @@
+﻿<!-- Modal -->
+<div class="modal fade" id="editStudentWorksWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-add-task" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Назначение учеников</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-class="{ 'field-invalid': editStudentWorksCtrl.isDublicateValue() }">
+                    <div class="input-group">
+                        <!--<input type="text" class="form-control">-->
+                        <div user-autocomplete
+                             name="user"
+                             ng-model="editStudentWorksCtrl.selectedUser"
+                             optional="true"
+                             required="false">
+
+                        </div>
+
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary" ng-disabled="!editStudentWorksCtrl.canAddWork()" ng-click="editStudentWorksCtrl.onAddWork()">Добавить</button>
+                        </span>
+
+                    </div>
+                    <span class="text-error" ng-show="editStudentWorksCtrl.isDublicateValue()">
+                        Это повторяющееся значение
+                    </span>
+                </div>
+                <div ng-if="editStudentWorksCtrl.columns" id="datatable-fixed-header_wrapper" class="dataTables_wrapper task-list form-inline dt-bootstrap no-footer no-select">
+                    <table id="datatable-fixed-header" class="table table-striped dataTable no-footer" role="grid" aria-describedby="datatable-fixed-header_info">
+                        <thead>
+                            <tr role="row">
+                                <th ng-repeat="column in editStudentWorksCtrl.columns"
+                                    tabindex="0" aria-controls="datatable-fixed-header" rowspan="1" colspan="1" aria-sort="ascending"
+                                    ng-style="{'width':column.width}">
+                                    {{column.title}}
+                                </th>
+                                <th>
+
+                                </th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr ng-if="editStudentWorksCtrl.works.length==0">
+                                <td ng-repeat="col in editStudentWorksCtrl.columns track by $index">
+                                    {{$index ==0 ? 'Нет данных': ''}}
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr role="row"
+                                ng-repeat="row in editStudentWorksCtrl.works track by $index">
+                                <td ng-repeat="col in editStudentWorksCtrl.columns" ng-switch="col.columnName">
+                                    <span ng-switch-when="Status">
+                                        {{row[col.columnName] | WorkStatus}}
+                                    </span>
+                                    <span ng-switch-default="">{{row[col.columnName]}}</span>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-default delete-row-table-button" ng-if="editStudentWorksCtrl.canDeleteWork($index)" ng-click="editStudentWorksCtrl.onRemoveWork($index)">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-primary" ng-click="editStudentWorksCtrl.onSave()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,27 @@
+<div class="eui-combobox-paging-row" ng-show="hasPager()">
+    <button type="button" class="eui-combobox-pager-button eui-t-default eui-m-first"
+            ng-click="searchItemsPage({page:1})"
+            ng-disabled="pager.currentPage == 1">
+        <div class="eui-icon eui-icon-first"></div>
+    </button>
+    <button type="button" class="eui-combobox-pager-button eui-t-default eui-m-prev"
+            ng-click="searchItemsPage({page:pager.currentPage-1})"
+            ng-disabled="pager.currentPage == 1">
+        <div class="eui-icon eui-icon-prev"></div>
+    </button>
+    <div class="eui-combobox-pager-content">
+        <div>Стр.</div>
+        <input type="text" ng-change="setPage(pager.currentPage)" ng-model="pager.currentPage" class="eui-input" ng-class="theme" />
+        <div>из {{pager.totalPages}}</div>
+    </div>
+    <button type="button" class="eui-combobox-pager-button eui-t-default eui-m-next"
+            ng-click="searchItemsPage({page:pager.currentPage+1})"
+            ng-disabled="pager.currentPage == pager.totalPages">
+        <div class="eui-icon eui-icon-next"></div>
+    </button>
+    <button type="button" class="eui-combobox-pager-button eui-t-default eui-m-last"
+            ng-click="searchItemsPage({page:pager.totalPages})"
+            ng-disabled="pager.currentPage == pager.totalPages">
+        <div class="eui-icon eui-icon-last"></div>
+    </button>
+</div>

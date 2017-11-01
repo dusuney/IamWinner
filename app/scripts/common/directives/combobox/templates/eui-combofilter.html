@@ -1,0 +1,13 @@
+<div class="eui-combobox-filter-row eui-combobox-panel-row">
+    <div class="eui-input-icon-group">
+        <div class="eui-icon eui-icon-funnel eui-t-default eui-m-prepend"></div>
+        <div class="eui-icon eui-icon-reset-value eui-t-default eui-m-append"
+            ng-if="filterValue"
+            ng-click="resetFilterValue($event)"></div>
+        <input type="text"
+            ng-model="filterValue"
+            tabindex="-1"
+            placeholder="значение для фильтрации"
+            class="eui-input eui-js-filter-input" ng-class="theme" />
+    </div>
+</div>

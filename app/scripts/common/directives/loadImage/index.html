@@ -1,0 +1,9 @@
+
+<div>
+    <input id="imgInp" class="form-control col-md-9 col-xs-12" ng-model="image.url" type="file"
+       accept="image/*"     name="icon" ng-change="change()">
+    
+    <div ng-if="image.url">
+        <img ng-src="{{image.url}}" class="image-upload-preview"  alt="icon">
+    </div>
+</div> 

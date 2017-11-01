@@ -1,0 +1,42 @@
+﻿<div class="animate form login_form">
+    <section class="login_content">
+        <form name="loginFormCtrl.form" ng-submit="loginFormCtrl.onLogin()" novalidate="">
+            <h1>
+                <i class="fa fa-paw"></i>
+                I am Winner
+            </h1>
+            <div class="form-group" ng-class="{ 'field-invalid': loginFormCtrl.form.login.$invalid && loginFormCtrl.showError }">
+                <input type="text" ng-model="loginFormCtrl.login" name="login" class="form-control" placeholder="Логин" required=""
+                       ng-class="{ 'field-invalid': loginFormCtrl.form.login.$invalid && loginFormCtrl.showError }" />
+                <span class="text-error" ng-show="loginFormCtrl.form.login.$invalid && loginFormCtrl.showError">Это обязательное поле</span>
+            </div>
+            <div class="form-group" ng-class="{ 'field-invalid': loginFormCtrl.form.password.$invalid && loginFormCtrl.showError }">
+                <input type="password" ng-model="loginFormCtrl.password" name="password" class="form-control" placeholder="Пароль"
+                       ng-class="{ 'field-invalid': loginFormCtrl.form.password.$invalid && loginFormCtrl.showError }"
+                       required="" />
+                <span class="text-error" ng-show="loginFormCtrl.form.password.$invalid && loginFormCtrl.showError">Это обязательное поле</span>
+            </div>
+            <div class="form-group field-invalid" ng-show="loginFormCtrl.showError">
+                <span class="text-error">{{loginFormCtrl.errorText}}</span>
+            </div>
+            <div>
+                <button class="btn btn-success" type="submit">Войти</button>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="separator">
+                <!-- <p class="change_link">
+                    New to site?
+                    <a class="to_register"> Create Account </a>
+                </p>
+
+                <div class="clearfix"></div>
+                    -->
+                <div>
+                    <p>©2017, I am Winner</p>
+                </div>
+            </div>
+        </form>
+    </section>
+</div>

@@ -1,0 +1,201 @@
+﻿.textForm {
+    margin-top: 123px;
+    border: 1px solid #999;
+}
+
+.btn-yellow {
+    background: rgb(250, 255, 140);
+    color: #574500;
+    border: 1px solid #dade7b;
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.btn-yellow:hover, .btn-yellow:focus {
+    background: rgb(252, 255, 179);
+}
+
+.btn-yellow:active {
+    background: rgb(247, 255, 71);
+}
+
+
+.article-table {
+    margin-top: 20px;
+}
+
+.btn:focus, .btn:active {
+    outline: none !important;
+}
+
+.btn-default:active, .btn-default:focus {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.field-invalid {
+    input, textarea, select, .ta-scroll-window {
+        background: #FAEDEC;
+        border: 1px solid #E85445;
+    }
+
+    .text-error {
+        color: #E85445;
+    }
+
+    .eui-combobox-panel {
+        input, textarea, select, .ta-scroll-window {
+            background: #fff;
+            border: 1px solid #73879C;
+        }
+    }
+}
+
+.loadImageToEditor {
+    width: 100px;
+    height: 100px;
+    top: 100px;
+    position: absolute;
+    background: #fff;
+}
+
+.image-upload-preview {
+    width: 300px;
+    margin-top: 20px;
+}
+
+.window-message li {
+    list-style-type: none;
+}
+
+.buttons, button, .btn {
+    margin-bottom: 0px;
+}
+
+.eui-combobox {
+    width: 100%;
+}
+
+.eui-combobox-result-item {
+    cursor: pointer;
+
+    &:hover {
+        background: #ddd;
+    }
+}
+
+.uploaded-image-preview {
+    max-width: 250px;
+}
+
+.btn.btn-default.delete-uploaded-image {
+    .glyphicon {
+        top: 3px;
+    }
+}
+
+.eui-combobox-content > .eui-combobox-display {
+    height: 34px;
+}
+
+.custom-radio {
+    input[type=radio] {
+        display: none;
+    }
+
+    .bg {
+        background-position: -132px 0;
+    }
+
+    input[type=radio]:checked ~ .bg {
+        background-position: -110px 0;
+    }
+
+    input[type=radio]:disabled ~ .bg {
+        background-position: -132px 0;
+    }
+
+    input[type=radio]:disabled:checked ~ .bg {
+        background-position: -154px 0;
+    }
+
+    .bg.valid {
+        background-color: rgba(9, 154, 0, 0.92);
+        border-radius: 20px;
+    }
+
+    .bg.invalid {
+        background-color: rgba(154, 0, 0, 0.92);
+        border-radius: 20px;
+    }
+}
+
+.custom-checkbox {
+    input[type=checkbox] {
+        display: none;
+    }
+
+    .bg {
+        background-position: 0 0;
+    }
+
+    input[type=checkbox]:checked ~ .bg {
+        background-position: -22px 0;
+    }
+
+    input[type=checkbox]:disabled ~ .bg {
+        background-position: -44px 0;
+    }
+
+    input[type=checkbox]:disabled:checked ~ .bg {
+        background-position: -66px 0;
+    }
+
+    .bg.valid {
+        background-color: rgba(9, 154, 0, 0.92);
+        border-radius: 4px;
+    }
+
+    .bg.invalid {
+        background-color: rgba(154, 0, 0, 0.92);
+        border-radius: 4px;
+    }
+}
+
+.custom-radio, .custom-checkbox {
+    .bg {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0 0 0 -20px;
+        padding: 0;
+        width: 20px;
+        height: 20px;
+        background-image: url(../images/green.png);
+        border: none;
+        cursor: pointer;
+        position: absolute;
+    }
+
+    label div:last-child {
+        margin-left: 10px;
+    }
+}
+
+div[ng-bind-html] {
+    display: inline-block;
+}
+
+.buttons-edit-controll, .buttons-controll {
+    width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 18px;
+}
+
+.form-control, textarea {
+    border-radius: 3px;
+}
+
+

@@ -1,0 +1,141 @@
+<div class="result-page">
+    <div class="page-title">
+        <div class="title_left">
+            <h1>Результаты</h1>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>
+                        {{workResultCtrl.WorkResultService.StudentWork.TaskSetType | TaskSetTypes}} :
+                        {{workResultCtrl.WorkResultService.StudentWork.Title}}
+                        <small>
+                            Дата завершения: {{workResultCtrl.WorkResultService.StudentWork.DateModified}}
+                        </small>
+                    </h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <p>
+                                Ученик:
+                                {{workResultCtrl.WorkResultService.StudentWork.Fio || ''}}
+                            </p>
+                            <p>
+                                Всего ответов:
+                                {{workResultCtrl.WorkResultService.StudentWork.FinishedCount}}/
+                                {{workResultCtrl.WorkResultService.StudentWork.TotalCount}}
+                            </p>
+                            <p>
+                                Правильных ответов:
+                                {{workResultCtrl.WorkResultService.StudentWork.SuccessCount}}/
+                                {{workResultCtrl.WorkResultService.StudentWork.TotalCount}}
+                            </p>
+                            <h3>Итоговый результат: {{workResultCtrl.WorkResultService.getPercentProgress()}}%</h3>
+                        </div>
+                    </div>
+                    <div id="results" class="results">
+                        <div class="result-container" ng-repeat="step in workResultCtrl.WorkResultService.StudentWork.Entires track by $index">
+
+                            <div class="head-result row">
+                                <div class="col-md-11">
+                                    <h3>
+                                        <span class="glyphicon glyphicon-ok" aria-hidden="true" ng-if="step.Done && step.Result.Success"></span>
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true" ng-if="step.Done && !step.Result.Success"></span>
+                                        <span class="glyphicon glyphicon-time" aria-hidden="true" ng-if="!step.Done"></span>
+                                        Задача {{$index+1}}
+                                    </h3>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="buttons">
+                                        <button type="button" class="expand-button"
+                                                ng-if="!step.isShow"
+                                                ng-click="workResultCtrl.WorkResultService.onShowResponse(step)">
+                                            <span class="glyphicon glyphicon-chevron-down"></span>
+                                        </button>
+                                        <button type="button" class="expand-button"
+                                                ng-if="step.isShow"
+                                                ng-click="workResultCtrl.WorkResultService.onHideResponse(step)">
+                                            <span class="glyphicon glyphicon-chevron-up"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--BODY RESULT-->
+                            <div class="body-result" ng-if="step.isShow">
+                                <h4>{{step.Task.TaskType | TaskTypes}}: {{step.Task.Title}}</h4>
+
+                                <br />
+                                <p ng-model="step.Task.Body"
+                                   ta-bind="text" ta-readonly="disable">$a+b=c$</p>
+                                <br />
+
+                                <div class="response" ng-if="step.Task.AnswerType === 1 || step.Task.AnswerType === 4">
+                                    <h4>Ответ:</h4>
+                                    <div class="custom-radio radio" ng-repeat="option in  step.Task.Options track by $index">
+                                        <label>
+                                            <input type="radio" ng-model="step.Answers[0].OptionId" name="radio"
+                                                   value="{{option.Id}}"
+                                                   ng-disabled="true">
+                                            <div class="bg"
+                                                 ng-class="workResultCtrl.WorkResultService.getClassOption(option,step)"></div>
+
+                                            <div ng-model="option.Text" ta-bind="text" ta-readonly="disable"></div>
+
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="response" ng-if="step.Task.AnswerType === 2">
+                                    <h4>Ответ:</h4>
+                                    <div class="custom-checkbox checkbox"
+                                         ng-repeat="option in step.Task.Options track by $index">
+                                        <label>
+                                            <input type="checkbox" name="check{{$index}}" ng-checked="option.IsChecked"
+                                                   ng-disabled="true">
+                                            <div class="bg"
+                                                 ng-class="workResultCtrl.WorkResultService.getClassOption(option,step)"></div>
+
+                                            <div ng-model="option.Text" ta-bind="text" ta-readonly="disable"></div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="response" ng-if="step.Task.AnswerType === 3">
+                                    <h4>Ответ:</h4>
+                                    <input type="text" id="string-reply" ng-model="answer.Value"
+                                           ng-repeat="answer in step.Task.Answers"
+                                           name="stringReply" required class="form-control col-md-7 col-xs-12"
+                                           ng-disabled="true">
+                                </div>
+                                <br /><br />
+                                <div class="hints" ng-if="step.Hints.length>0">
+                                    <h4>Подсказки:</h4>
+                                    <div ng-repeat="hint in step.Hints">
+                                        <br />
+                                        <p ta-bind="text" ta-readonly="disable" ng-model="hint.Text"></p>
+                                        <h5>Штраф:{{hint.Penalty}}</h5>
+                                    </div>
+                                </div>
+
+
+                                <br />
+                                <h4>Балл: {{step.Result.Mark}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<window></window>
+<edit-works></edit-works>

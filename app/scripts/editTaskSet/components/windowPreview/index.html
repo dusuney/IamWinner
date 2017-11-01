@@ -1,0 +1,44 @@
+﻿<div class="preview-window" id="preview">
+    <div ng-if="isPreview">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>
+                    Предварительный осмотр
+                </h3>
+            </div>
+            <div class="title_rigth">
+                <button class="btn btn-default source" ng-click="closePreviewWindow()">Закрыть</button>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Основная информация</h2>
+
+
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <br />
+                        <p><h3 ng-bind-html="taskSet.Title"></h3> </p>
+                        <p><b>Тип:</b> {{taskSet.TaskSetType | TaskSetTypes}}</p>
+                        <p><b>Иконка:</b> <p><img class="preview-image" ng-if="taskSet.IconUrl" ng-src="{{taskSet.IconUrl}}" alt="Alternate Text" /></p>
+                        <p><b>Краткое описание:</b> <span ta-bind="text" ng-model="taskSet.Brief" ta-readonly='disabled'></span></p>
+                        <p><b>Описание подборки:</b><span ta-bind="text" ng-model="taskSet.Body" ta-readonly='disabled'></span></p>
+
+                        <p><b>Уровень:</b>  </br>{{taskSet.Difficulty | Difficulties}}</p>
+                        <p><b>Предмет:</b>  </br>{{taskSet.Subject | Subjects}}</p>
+                        <p><b>Класс:</b>  </br>{{taskSet.Class | Classes}}</p>
+
+
+                        </br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <edit-step task-set="taskSet" is-preview="true"></edit-step>
+    </div>
+</div>

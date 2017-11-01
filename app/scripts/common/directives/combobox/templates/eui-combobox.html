@@ -1,0 +1,30 @@
+<div class="eui-combobox-content"
+     ng-class="[theme, ctrl.isExpanded ? 'eui-s-expanded' : 'eui-s-collapsed', isDisabled ? 'eui-s-disabled' : '']">
+    <div tabindex="0" class="eui-combobox-display" ng-class="theme">
+        <div class="eui-icon eui-t-grey eui-js-clear-model"
+             ng-class="{ 'eui-icon-reset-value': optional}"
+             ng-click="ctrl.resetValue()"
+             ng-show="ctrl.canResetValue()"></div>
+        <div class="eui-combobox-display-value" ng-class="{'filter':isFilter}">
+            <div class="placeholder">
+                {{ctrl.getPlaceholderValue()}}
+            </div>
+            {{ctrl.getDisplayValue()}}&nbsp;
+        </div>
+        
+
+        <div class="eui-icon eui-icon-arrow" ng-class="theme"></div>
+    </div>
+    <div class="ln-grn-filter_buttons small" ng-if="isFilter && !ctrl.isExpanded">
+        <div class="ln-grn-filter_buttons_btn1" ng-click="onClickApply()">
+            <span>ПРИМЕНИТЬ</span>
+        </div>
+        <div class="ln-grn-filter_buttons_btn2" ng-click="onCloseWindow()">
+            <span>ОТМЕНИТЬ</span>
+        </div>
+    </div>
+    <div class="eui-combobox-panel"
+         ng-if="ctrl.isExpanded"
+         ng-class="theme"
+         ng-transclude></div>
+</div>

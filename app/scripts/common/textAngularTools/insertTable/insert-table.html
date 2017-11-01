@@ -1,0 +1,91 @@
+﻿<modal class="insert-table tableModal">
+    <header class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="close()">
+            <span aria-hidden="true">×</span>
+        </button>
+        <h3>Добавление таблицы</h3>
+    </header>
+    <content class="modal-body">
+        <div class="form-group tableModalForm">
+            <label for="numberOfRows">Количество строк</label>
+            <input type="number" class="form-control" ng-model="newtable.row" placeholder="Введите число" name="row" required="" id="numberOfRows" />
+        </div>
+        <div class="form-group tableModalForm">
+            <label for="NumberOfColumns">Количество колонок</label>
+            <input type="number" class="form-control" ng-model="newtable.col" placeholder="Введите число" name="col" required="" id="NumberOfColumns" />
+        </div>
+    </content>
+    <footer class="modal-footer">
+        <button class="btn btn-default pull-left" 
+                ng-disabled="!canAddTable()" ng-click="insertTable()">Добавить</button>
+    </footer>
+</modal>
+
+<style>
+    .freeTextTable td {
+        border: solid 1px #333;
+    }
+
+    .tableModalForm {
+        margin: 10px 10px 10px 10px;
+        width: 20%;
+    }
+
+    .remRowFreeTextTable {
+        margin-left: 50px;
+    }
+
+    .deleteFreeTextTable {
+        margin-left: 50px;
+    }
+
+    .onclick-menu {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+
+        .onclick-menu:focus .onclick-menu-content {
+            /*  opacity is 1 in opened state (see below) */
+            opacity: 1;
+            visibility: visible;
+            /* don't let pointer-events affect descendant elements */
+            pointer-events: auto;
+        }
+
+    .onclick-menu-content:focus {
+        /*  opacity is 1 in opened state (see below) */
+        opacity: 1;
+        visibility: visible;
+        /* don't let pointer-events affect descendant elements */
+        pointer-events: auto;
+    }
+
+
+    .onclick-menu-content {
+        position: absolute;
+        z-index: 1;
+        /* use opacity to fake immediate toggle */
+        opacity: 0;
+        visibility: hidden;
+        transition: visibility 0.5s;
+        width: auto;
+        margin-left: 0;
+        padding-left: 0px;
+    }
+
+        .onclick-menu-content li {
+            color: #333;
+            list-style-type: none;
+            white-space: nowrap;
+        }
+
+    .ta-resizer-handle-background {
+        background-color: rgba(0,0,0,0) !important;
+        border: none !important;
+    }
+
+    .modal-content {
+        height: 350px;
+    }
+</style>

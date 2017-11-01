@@ -1,0 +1,44 @@
+<div class="eui-combobox-panel-row" ng-switch="typeInput">
+    <div class="eui-input-icon-group" ng-switch-when="integer">
+        <div class="eui-icon eui-icon-reset-value eui-t-default eui-m-append"
+             ng-if="textValue.text"
+             ng-click="resetTextValue($event)"></div>
+
+        <input type="text"
+               integer-input
+               ng-model="textValue.text"
+               tabindex="-1"
+               placeholder="введите значение"
+               class="eui-input eui-js-filter-input" ng-class="theme"/>
+    </div>
+
+    <div class="eui-input-icon-group" ng-switch-when="float">
+        <div class="eui-icon eui-icon-reset-value eui-t-default eui-m-append"
+             ng-if="textValue.text"
+             ng-click="resetTextValue($event)"></div>
+
+        <input type="text"
+               float-input
+               ng-model="textValue.text"
+               tabindex="-1"
+               placeholder="введите значение"
+               class="eui-input eui-js-filter-input" ng-class="theme"/>
+    </div>
+
+    <div class="eui-input-icon-group" ng-switch-default>
+        <div class="eui-icon eui-icon-reset-value eui-t-default eui-m-append"
+             ng-if="textValue.text"
+             ng-click="resetTextValue($event)"></div>
+
+        <input type="text"
+               ng-model="textValue.text"
+               tabindex="-1"
+               placeholder="введите значение"
+               class="eui-input eui-js-filter-input" ng-class="theme"/>
+
+
+    </div>
+</div>
+
+
+

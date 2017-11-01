@@ -1,0 +1,65 @@
+<!--<div class="eui-combobox-content"
+     ng-class="[theme, ctrl.isExpanded ? 'eui-s-expanded' : 'eui-s-collapsed', isDisabled ? 'eui-s-disabled' : '']">
+    <div tabindex="0" class="eui-combobox-display" ng-class="theme">
+        <div class="eui-icon eui-t-grey eui-js-clear-model"
+             ng-class="{ 'eui-icon-reset-value': optional}"
+             ng-click="ctrl.resetValue()"
+             ng-show="ctrl.canResetValue()"></div>
+        <div class="eui-combobox-display-value">
+            {{ctrl.getDisplayValue()}}&nbsp;
+        </div>
+        <div class="eui-icon eui-icon-arrow" ng-class="theme"></div>
+    </div>
+    <div class="ln-grn-filter_buttons small" ng-if="isFilter && !ctrl.isExpanded">
+        <div class="ln-grn-filter_buttons_btn1" ng-click="onClickApply()">
+            <span>ПРИМЕНИТЬ</span>
+        </div>
+        <div class="ln-grn-filter_buttons_btn2" ng-click="onCloseWindow()">
+            <span>ОТМЕНИТЬ</span>
+        </div>
+    </div>
+    <div class="eui-combobox-panel"
+         ng-if="ctrl.isExpanded"
+         ng-class="theme"
+         ng-transclude></div>
+</div>-->
+
+<div class="ln-grn-filter_multi-select_selectables">
+    <div class="ln-grn-filter_multi-select_selectables_select-all">
+        <label>
+            <div class="ln-checkbox">
+                <input type="checkbox" ng-change="ctrl.onAllOptionSelected(ctrl.allOptionSelected)"
+                       ng-model="ctrl.allOptionSelected"/>
+
+                <div class="ln-bg"></div>
+            </div>
+            <span>Выбрать все</span>
+        </label>
+    </div>
+    <div class="ln-grn-filter_multi-select_selectables_list scroll-container" custom-scroll>
+        <div class="ln-grn-filter_multi-select_selectables_list_item"
+             ng-repeat="option in ctrl.column.options">
+            <label>
+                <div class="ln-checkbox">
+                    <input type="checkbox"
+                           ng-click="ctrl.onClickOption(option)"
+                           ng-model="option.selected"/>
+
+                    <div class="ln-bg"></div>
+                </div>
+                <span>{{option.title}}</span>
+            </label>
+        </div>
+    </div>
+</div>
+<div class="ln-grn-filter_multi-select_info">
+    {{ctrl.getSelectedOptions().length}} из {{ctrl.column.options.length}} выбрано
+</div>
+<div class="ln-grn-filter_buttons">
+    <div class="ln-grn-filter_buttons_btn1" ng-click="ctrl.onClickApply()">
+        <span>ПРИМЕНИТЬ</span>
+    </div>
+    <div class="ln-grn-filter_buttons_btn2" ng-click="ctrl.closeWindow()">
+        <span>ОТМЕНИТЬ</span>
+    </div>
+</div>

@@ -1,0 +1,211 @@
+<div class="catalog-page">
+    <div class="page-title">
+        <div class="title_left">
+            <h1>
+                Каталог
+            </h1>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel">
+                <div class="x_content">
+
+                    <div class="row">
+                        <div class="col-xs-8 col-sm-8 col-md-9 col-lg-10">
+                            <div class="row">
+                                <br />
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-mdlg-6 col-lg-4" ng-repeat="record in catalogCtrl.panel.view.table.records"
+                                     ng-if="catalogCtrl.panel.view.table.records.length>0">
+                                    <div class="thumbnail" ng-class="{'set':record.StudentWork}">
+                                        <div class="image view view-first">
+                                            <img ng-if="record.IconUrl" ng-src="{{record.IconUrl}}"
+                                                 onerror="this.src = '/theme/default/images/catalog-default-icon.png'"
+                                                 alt="{{record.Title}}" />
+                                            <img ng-if="!record.IconUrl" src="theme/default/images/catalog-default-icon.png" alt="{{record.Title}}" />
+                                            <div class="mask">
+                                                <!--
+                                                <button class="btn btn-default" ng-click="catalogCtrl.CatalogService.onStart(record)">
+                                                    Детали
+                                                </button> -->
+                                            </div>
+                                        </div>
+                                        <div class="caption">
+
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <p>{{record.Difficulty | Difficulties}}</p>
+                                                    <p>{{record.Subject | Subjects}}, {{record.Class | Classes}} класс</p>
+                                                </div>
+                                                <div class="col-md-4 price-info">
+                                                    Бесплатно
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <h2>{{record.TaskSetType | TaskSetTypes}}: {{record.Title}}</h2>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <button class="btn btn-success control-btn" ng-click="catalogCtrl.CatalogService.onStart(record)">
+                                                    Детали
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-lg-4"
+                                     ng-if="catalogCtrl.panel.view.table.records.length===0">
+                                    Нет данных
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <ul class="pager">
+                                    <li class="previous" ng-click="catalogCtrl.CatalogService.onPreviousPage()"
+                                        ng-class="{'disabled':catalogCtrl.CatalogService.canOnPreviousPage()}">
+                                        <a href="#">&larr; Назад</a>
+                                    </li>
+                                    <li> Страница {{catalogCtrl.panel.view.table.pager.currentPage}} из {{catalogCtrl.panel.view.table.pager.totalPages}}</li>
+                                    <li class="next"
+                                        ng-class="{'disabled': catalogCtrl.CatalogService.canOnNextPage()}"
+                                        ng-click="catalogCtrl.CatalogService.onNextPage()">
+                                        <a href="#">Вперед &rarr;</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-3 col-lg-2">
+                            <br />
+
+                            <h3>Фильтры</h3>
+                            <div class="input-group">
+                                <label for="keyWord"> Ключевое слово:</label>
+                                <input name="keyWord" type="text"
+                                       ng-model="catalogCtrl.panel.keyword"
+                                       class="form-control" placeholder="Введите текст">
+
+                            </div>
+
+                            <h4>Тип:</h4>
+                            <ul>
+                                <li ng-repeat="type in catalogCtrl.taskSetTypes">
+                                    <div class="custom-radio radio">
+                                        <label>
+                                            <input type="radio"
+                                                   ng-model="catalogCtrl.CatalogService.filters.TaskSetType.id"
+                                                   name="taskSetTypes"
+                                                   value="{{type.id}}">
+                                            <div class="bg"></div>
+                                            <div>{{type.name}}</div>
+
+                                        </label>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <h4>Предмет:</h4>
+                            <ul>
+                                <li ng-repeat="subject in catalogCtrl.subjects">
+                                    <div class="custom-radio radio">
+                                        <label>
+                                            <input type="radio"
+                                                   ng-model="catalogCtrl.CatalogService.filters.Subject.id"
+                                                   name="subjects"
+                                                   value="{{subject.id}}"> <div class="bg"></div>
+                                            <div>{{subject.name}}</div>
+
+                                        </label>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <h4>Уровень:</h4>
+                            <ul>
+                                <li ng-repeat="difficulty in catalogCtrl.difficulties">
+                                    <div class="custom-radio radio">
+                                        <label>
+                                            <input type="radio"
+                                                   ng-model="catalogCtrl.CatalogService.filters.Difficulty.id"
+                                                   name="difficulties"
+                                                   value="{{difficulty.id}}"><div class="bg"></div>
+                                            <div>{{difficulty.name}}</div>
+
+                                        </label>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <h4>Класс:</h4>
+                            <ul>
+                                <li ng-repeat="class in catalogCtrl.classes">
+                                    <div class="custom-radio radio">
+                                        <label>
+                                            <input type="radio"
+                                                   ng-model="catalogCtrl.CatalogService.filters.Class.id"
+                                                   name="classes"
+                                                   value="{{class.id}}"> <div class="bg"></div>
+                                            <div>{{class.name}}</div>
+
+                                        </label>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div ng-if="catalogCtrl.CatalogService.isLoggedUser=='true'">
+                                <h4>Наборы:</h4>
+                                <ul>
+                                    <li>
+                                        <div class="custom-radio radio">
+                                            <label>
+                                                <input type="radio"
+                                                       name="showUsersWork"
+                                                       data-ng-model="catalogCtrl.CatalogService.filters.ShowUsersWork" data-ng-value="true">
+                                                <div class="bg"></div>
+                                                <div>Мои</div>
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="custom-radio radio">
+                                            <label>
+                                                <input type="radio"
+                                                       name="showUsersWork"
+                                                       data-ng-model="catalogCtrl.CatalogService.filters.ShowUsersWork" data-ng-value="false">
+                                                <div class="bg"></div>
+                                                <div>Все</div>
+                                            </label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!--<h4>Стоимость:</h4>
+                            <ul>
+                                <li></li>
+                            </ul>-->
+                            <br />
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <button class="btn btn-primary reset-button" ng-click="catalogCtrl.CatalogService.onResetFilters()">Сбросить</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <button class="btn btn-success apply-button" ng-click="catalogCtrl.CatalogService.onApplyFilters()">Применить</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<window-preview is-preview="catalogCtrl.isPreview" task="catalogCtrl.task"></window-preview>
+<load-image-to-editor></load-image-to-editor>
+<window></window>
+<pending is-loading="catalogCtrl.CatalogService.isLoading"></pending>
+

@@ -1,0 +1,142 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_content">
+
+                <div id="datatable-fixed-header_wrapper" class="dataTables_wrapper work-list form-inline dt-bootstrap no-footer">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div id="datatable-fixed-header_filter" class="dataTables_filter">
+                                <div class="input-group">
+                                    <input type="text" ng-model="workListCtrl.panel.keyword" class="form-control">
+                                    <i class="fa fa-close"
+                                       ng-if="workListCtrl.panel.keyword"
+                                       ng-click="workListCtrl.panel.onResetSearch()"></i>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn" ng-class="{'btn-default': !workListCtrl.panel.keyword,
+                                      'btn-primary':workListCtrl.panel.keyword }"
+                                                ng-disabled="!workListCtrl.panel.keyword"
+                                                ng-click="workListCtrl.panel.onDoSearch()">
+                                            Найти
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 status-filter">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-3">
+                                Статус
+                            </label>
+                            <div class="col-md-9 col-sm-9 col-xs-9">
+                                <select class="form-control col-md-12 col-xs-12" name="taskType" ng-model="workListCtrl.status"
+                                        ng-change="workListCtrl.onChangeStatus()"
+                                        ng-options="type.id as type.name for type in workListCtrl.workStatuses">
+                                    <option value="">Не выбрано</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="datatable-fixed-header" class="table table-striped dataTable no-footer" role="grid" aria-describedby="datatable-fixed-header_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th ng-repeat="column in workListCtrl.panel.view.table.columns"
+                                            tabindex="0" aria-controls="datatable-fixed-header" rowspan="1" colspan="1" aria-sort="ascending"
+                                            ng-click="workListCtrl.panel.onSortColumn(column,$event)"
+                                            ng-style="{'width':column.width}"
+                                            ng-class="{'sorting':!column.sortOrder, 'sorting_asc': column.sortOrder === 'asc','sorting_desc': column.sortOrder === 'desc'}">
+                                            {{column.title}}
+                                        </th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    <tr role="row" ng-click="workListCtrl.onClickRow(row)"
+                                        ng-class="{'no-result' : !row.HaveResult}"
+                                        ng-repeat="row in workListCtrl.panel.view.table.records" ng-if="workListCtrl.panel.view.table.records.length>0">
+                                        <td ng-repeat="col in workListCtrl.panel.view.table.columns " ng-switch="col.columnName">
+
+                                            <div ng-switch-when="Title">
+                                                <a>{{row[col.columnName]}}</a>
+                                                <br />
+
+                                            </div>
+                                            <div ng-switch-when="Progress">
+                                                <div class="progress progress_sm">
+
+                                                    <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="{{row.Progress}}" aria-valuenow="{{row.Progress}}" ng-style="{width:row.Progress + '%'}"></div>
+                                                </div>
+                                                <small>
+                                                    {{row.Progress}}%
+                                                </small>
+                                            </div>
+                                            <div ng-switch-when="Status">
+                                                <button style="width: 100%;" type="button"
+                                                        ng-class="row.Status | WorkStatusClass"
+                                                        class="btn btn-xs">
+                                                    {{row.Status | WorkStatus}}
+                                                </button>
+                                            </div><div ng-switch-default="">
+                                                {{row[col.columnName]}}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="no-data" ng-if="workListCtrl.panel.view.table.records.length===0">
+                                        <td colspan="100%">Нет данных</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8 col-md-8">
+                            <div class="dataTables_info" id="datatable-fixed-header_info" role="status" aria-live="polite">
+                                Показано {{workListCtrl.panel.pageSize <= workListCtrl.panel.getTotalItems() ? workListCtrl.panel.pageSize : workListCtrl.panel.getTotalItems()}} из {{workListCtrl.panel.getTotalItems()}} наборов
+                            </div>
+                            <div class="dataTables_length" id="datatable-fixed-header_length">
+                                <label>
+                                    Показать <select ng-change="workListCtrl.panel.onChangePageSize()" name="datatable-fixed-header_length" aria-controls="datatable-fixed-header" class="form-control input-sm" ng-model="workListCtrl.panel.pageSize">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select> записей
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <div class="dataTables_paginate paging_simple_numbers" id="datatable-fixed-header_paginate">
+                                <ul class="pagination">
+                                    <li class="paginate_button previous " id="datatable-fixed-header_previous"
+                                        ng-class="{'disabled':workListCtrl.panel.getPager().currentPage === 1}">
+                                        <a href="#" aria-controls="datatable-fixed-header"
+                                           ng-disabled="workListCtrl.panel.getPager().currentPage === 1"
+                                           ng-click="workListCtrl.panel.setPage(workListCtrl.panel.getPager().currentPage - 1)"
+                                           data-dt-idx="0" tabindex="0">Назад</a>
+                                    </li>
+                                    <li class="paginate_button" ng-repeat="page in workListCtrl.panel.getPages()"
+                                        ng-class="{'active':page === workListCtrl.panel.getPager().currentPage}">
+                                        <a href="#"
+                                           ng-click="workListCtrl.panel.setPage(page)"
+                                           ng-disabled="page === workListCtrl.panel.getPager().currentPage"
+                                           aria-controls="datatable-fixed-header" data-dt-idx="1" tabindex="0">{{page}}</a>
+                                    </li>
+                                    <li class="paginate_button next" id="datatable-fixed-header_next"
+                                        ng-class="{'disabled':workListCtrl.panel.getPager().currentPage === workListCtrl.panel.getPager().totalPages || currentTab.getPager().totalPages <= 1}">
+                                        <a href="#" aria-controls="datatable-fixed-header" data-dt-idx="7"
+                                           ng-disabled="workListCtrl.panel.getPager().currentPage === workListCtrl.panel.getPager().totalPages || currentTab.getPager().totalPages <= 1"
+                                           ng-click="workListCtrl.panel.setPage(workListCtrl.panel.getPager().currentPage + 1)"
+                                           tabindex="0">Вперед</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<window></window>
+<pending is-loading="!workListCtrl.panel.isLoaded"></pending>

@@ -1,0 +1,210 @@
+﻿<div class="" ng-if="!editTaskSetCtrl.isPreview">
+    <div class="page-title">
+        <div class="title_left">
+            <h1>
+                {{editTaskSetCtrl.TaskSetService.isNewObject ? 'Создание': 'Редактирование'}} набора задач
+            </h1>
+        </div>
+        <div class="title_rigth">
+            <button class="btn btn-default source" ng-click="editTaskSetCtrl.showPreviewWindow()">Просмотр</button>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <!--ng-if="editTaskSetCtrl.TaskSetService.isLoaded"-->
+    <form id="editTaskSet" name="editTaskSetCtrl.form" novalidate ng-if="editTaskSetCtrl.TaskSetService.isLoaded">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Основная информация</h2>
+
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <br />
+                        <div class="form-horizontal form-label-left">
+
+                            <!--Title-->
+                            <div class="form-group" ng-class="{ 'field-invalid': editTaskSetCtrl.FieldValidation.isInvalidField(editTaskSetCtrl.form, 'title') }">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">
+                                    Заголовок
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="text"
+                                           id="title"
+                                           required
+                                           maxlength="256"
+                                           name="title"
+                                           class="form-control col-md-7 col-xs-12"
+                                           ng-model="editTaskSetCtrl.taskSet.Title">
+                                    <span class="text-error" ng-show="editTaskSetCtrl.FieldValidation.isInvalidRequiredField(editTaskSetCtrl.form, 'title')">Это обязательное поле</span>
+                                </div>
+                            </div>
+
+                            <!--Task set type-->
+                            <div class="form-group" ng-class="{ 'field-invalid': editTaskSetCtrl.FieldValidation.isInvalidField(editTaskSetCtrl.form, 'taskSetType') }">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                    Тип
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                    <select class="form-control col-md-7 col-xs-12" name="taskSetType" ng-model="editTaskSetCtrl.taskSet.TaskSetType" required="required"
+                                            ng-options="type.id as type.name for type in editTaskSetCtrl.TaskSetService.taskSetTypes"></select>
+                                    <span class="text-error" ng-show="editTaskSetCtrl.FieldValidation.isInvalidRequiredField(editTaskSetCtrl.form, 'taskSetType')">Это обязательное поле</span>
+                                </div>
+                            </div>
+
+                            <!--Icon-->
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="imgInp">
+                                    Иконка
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <img class="uploaded-image-preview" ng-if="editTaskSetCtrl.taskSet.IconId" ng-src="{{editTaskSetCtrl.taskSet.IconUrl}}" />
+                                    </div>
+                                    <button type="button" class="btn btn-success" ng-click="editTaskSetCtrl.onChangeImage()">{{editTaskSetCtrl.taskSet.IconId ? 'Изменить' : 'Добавить'}}</button>
+                                    <button type="button" ng-if="editTaskSetCtrl.taskSet.IconId" class="btn btn-default delete-uploaded-image" ng-click="editTaskSetCtrl.onDeleteImage()">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
+
+
+                            <!-- Short description-->
+                            <div class="form-group" ng-class="{ 'field-invalid': editTaskSetCtrl.FieldValidation.isInvalidField(editTaskSetCtrl.form, 'brief') }">
+                                <label for="description" class="control-label col-md-3 col-sm-3 col-xs-12">
+                                    Краткое описание подборки
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="container app">
+
+                                        <div text-angular="text-angular" name="brief"
+                                             ta-toolbar="editTaskSetCtrl.toolbar"
+                                             ng-model="editTaskSetCtrl.taskSet.Brief"
+                                             ta-disabled='disabled'
+                                             ta-paste="editTaskSetCtrl.handlers.onPaste($html)"
+                                             required="required"></div>
+
+                                    </div>
+                                    <br />
+                                    <span class="text-error" ng-show="editTaskSetCtrl.FieldValidation.isInvalidRequiredField(editTaskSetCtrl.form, 'brief')">Это обязательное поле</span>
+                                    <div class="ln_solid"></div>
+
+                                </div>
+                            </div>
+
+                            <!-- Long description-->
+                            <div class="form-group" ng-class="{ 'field-invalid': editTaskSetCtrl.FieldValidation.isInvalidField(editTaskSetCtrl.form, 'body') }">
+                                <label for="description" class="control-label col-md-3 col-sm-3 col-xs-12">
+                                    Описание подборки
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="container app">
+
+                                        <div text-angular="text-angular" name="body"
+                                             ta-toolbar="editTaskSetCtrl.toolbar"
+                                             ng-model="editTaskSetCtrl.taskSet.Body"
+                                             ta-disabled='disabled'
+                                             ta-paste="editTaskSetCtrl.handlers.onPaste($html)"
+                                             required="required"></div>
+
+                                    </div>
+                                    <span class="text-error" ng-show="editTaskSetCtrl.FieldValidation.isInvalidRequiredField(editTaskSetCtrl.form, 'body')">Это обязательное поле</span>
+                                   <div class="ln_solid"></div>
+
+                                </div>
+                            </div>
+
+                            <!--Level-->
+                            <div class="form-group" ng-class="{ 'field-invalid': editTaskSetCtrl.FieldValidation.isInvalidField(editTaskSetCtrl.form, 'difficulty') }">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                    Уровень
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                    <select class="form-control col-md-7 col-xs-12" name="difficulty" ng-model="editTaskSetCtrl.taskSet.Difficulty" required="required"
+                                            ng-options="type.id as type.name for type in editTaskSetCtrl.TaskSetService.difficulties"></select>
+                                    <span class="text-error" ng-show="editTaskSetCtrl.FieldValidation.isInvalidRequiredField(editTaskSetCtrl.form, 'difficulty')">Это обязательное поле</span>
+                                </div>
+                            </div>
+
+                            <!--Subject-->
+                            <div class="form-group" ng-class="{ 'field-invalid': editTaskSetCtrl.FieldValidation.isInvalidField(editTaskSetCtrl.form, 'subject') }">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                    Предмет
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                    <select class="form-control col-md-7 col-xs-12" name="subject" ng-model="editTaskSetCtrl.taskSet.Subject" required="required"
+                                            ng-options="type.id as type.name for type in editTaskSetCtrl.TaskSetService.subjects"></select>
+                                    <span class="text-error" ng-show="editTaskSetCtrl.FieldValidation.isInvalidRequiredField(editTaskSetCtrl.form, 'subject')">Это обязательное поле</span>
+                                </div>
+                            </div>
+
+                            <!--Class-->
+                            <div class="form-group" ng-class="{ 'field-invalid': editTaskSetCtrl.FieldValidation.isInvalidField(editTaskSetCtrl.form, 'class') }">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                    Класс
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                    <select class="form-control col-md-7 col-xs-12" name="class" ng-model="editTaskSetCtrl.taskSet.Class" required="required"
+                                            ng-options="type.id as type.name for type in editTaskSetCtrl.TaskSetService.classes"></select>
+                                    <span class="text-error" ng-show="editTaskSetCtrl.FieldValidation.isInvalidRequiredField(editTaskSetCtrl.form, 'class')">Это обязательное поле</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <edit-step form="editTaskSetCtrl.form"
+                   task-set="editTaskSetCtrl.taskSet"
+                   is-edit="!editTaskSetCtrl.TaskSetService.isNewObject">
+
+        </edit-step>
+
+        <!--<div lot-buyer-autocomplete
+             name="lotBuyer"
+             ng-model="editLotCtrl.lotInfo.lotBuyer"
+             theme="eui-t-green"
+             optional="false"></div>
+        <div class="eui-input-hint eui-t-default"
+             ng-show="editLotCtrl.isInvalidRequiredField(editLotCtrl.lotInfoForm, 'lotBuyer')">
+            Обязательное поле
+        </div>-->
+
+
+    </form>
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="x_panel">
+
+                <div class="x_content">
+                    <br />
+                    <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <button type="submit" class="btn btn-primary" ng-click="editTaskSetCtrl.onCancelEdit()">Отмена</button>
+                            <button type="submit" class="btn btn-success" ng-disabled="!editTaskSetCtrl.TaskSetService.canSave" ng-click="editTaskSetCtrl.onSaveEdit()">Сохранить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<window-preview is-preview="editTaskSetCtrl.isPreview" task-set="editTaskSetCtrl.taskSet"></window-preview>
+<load-image-to-editor></load-image-to-editor>
+<edit-tasks task-set="editTaskSetCtrl.taskSet"></edit-tasks>
+<window></window>
+<pending is-loading="!editTaskSetCtrl.TaskSetService.isLoaded"></pending>

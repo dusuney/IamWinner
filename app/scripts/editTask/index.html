@@ -1,0 +1,150 @@
+<div class="" ng-if="!editTaskCtrl.isPreview">
+    <div class="page-title">
+        <div class="title_left">
+            <h1>
+                {{editTaskCtrl.TaskService.isNewObject  ? 'Создание задания' : 'Редактирование задания'}}
+            </h1>
+        </div>
+        <div class="title_rigth">
+            <button class="btn btn-default source" ng-click="editTaskCtrl.showPreviewWindow()">Просмотр</button>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <form id="editTask" name="editTaskCtrl.form" novalidate ng-if="editTaskCtrl.TaskService.isLoaded">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Основная информация</h2>
+
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <br />
+                        <div class="form-horizontal form-label-left">
+
+                            <!--Title-->
+                            <div class="form-group" ng-class="{ 'field-invalid': editTaskCtrl.FieldValidation.isInvalidField(editTaskCtrl.form, 'title') }">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">
+                                    Заголовок
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="text" id="title" required
+                                           name="title"
+                                           maxlength="256"
+                                           class="form-control col-md-7 col-xs-12"
+                                           ng-model="editTaskCtrl.task.Title">
+                                    <span class="text-error" ng-show="editTaskCtrl.FieldValidation.isInvalidRequiredField(editTaskCtrl.form, 'title')">Это обязательное поле</span>
+                                </div>
+                            </div>
+
+                            <!--Icon
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="imgInp">
+                                    Иконка
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <loadimage image="editTaskCtrl.task.icon"></loadimage>
+                                </div>
+                            </div>-->
+                            <!--Task type-->
+                            <div class="form-group" ng-class="{ 'field-invalid': editTaskCtrl.FieldValidation.isInvalidField(editTaskCtrl.form, 'taskType') }">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                    Тип
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                    <select class="form-control col-md-7 col-xs-12" name="taskType" ng-model="editTaskCtrl.task.TaskType" required="required"
+                                            ng-options="type.id as type.name for type in editTaskCtrl.TaskService.taskTypes"></select>
+                                    <span class="text-error" ng-show="editTaskCtrl.FieldValidation.isInvalidRequiredField(editTaskCtrl.form, 'taskType')">Это обязательное поле</span>
+                                </div>
+                            </div>
+
+                            <!--Description-->
+                            <div class="form-group" ng-class="{ 'field-invalid': editTaskCtrl.FieldValidation.isInvalidField(editTaskCtrl.form, 'body') }">
+                                <label for="description" class="control-label col-md-3 col-sm-3 col-xs-12">
+                                    Описание
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="container app">
+                                        <div text-angular="text-angular" name="body" ta-toolbar="editTaskCtrl.toolbar"
+                                             ta-paste="editTaskCtrl.handlers.onPaste($html)"
+                                             ng-model="editTaskCtrl.task.Body" ta-disabled='disabled' required="required">
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <span class="text-error" ng-show="editTaskCtrl.FieldValidation.isInvalidRequiredField(editTaskCtrl.form, 'body')">Это обязательное поле</span>
+                                    
+                                    <div class="ln_solid"></div>
+
+                                </div>
+                            </div>
+
+                            <!--Mark-->
+                            <div class="form-group" ng-class="{ 'field-invalid': editTaskCtrl.FieldValidation.isInvalidField(editTaskCtrl.form, 'mark') }">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="point">
+                                    Балл <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input integer-input type="text" name="mark" id="point" required="required"
+                                           class="form-control col-md-7 col-xs-12"
+                                           ng-model="editTaskCtrl.task.Mark"
+                                           maxlength="9">
+                                    <span class="text-error" ng-show="editTaskCtrl.FieldValidation.isInvalidRequiredField(editTaskCtrl.form, 'mark')">Это обязательное поле</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Answers-->
+        <select-answer task="editTaskCtrl.task"
+                       form="editTaskCtrl.form"
+                       is-edit="!editTaskCtrl.TaskService.isNewObject"
+                       is-invalid-length-field="editTaskCtrl.isInvalidLengthField(field, limit)">
+        </select-answer>
+
+        <!--Hints-->
+        <hints task="editTaskCtrl.task"
+               form="editTaskCtrl.form"
+               paste-handler="editTaskCtrl.pasteHandler($html)"
+               is-edit="!editTaskCtrl.TaskService.isNewObject"
+               is-invalid-length-field="editTaskCtrl.isInvalidLengthField(field, limit)">
+        </hints>
+    </form>
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="x_panel">
+
+                <div class="x_content">
+                    <br />
+                    <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <div class="buttons-edit-controll">
+                                <button type="submit" class="btn btn-info" ng-if="!editTaskCtrl.TaskService.isNewObject"
+                                        ng-click="editTaskCtrl.onCopy()">
+                                    Создать копию
+                                </button>
+                                <button type="submit" class="btn btn-primary" ng-click="editTaskCtrl.onCancelEdit()">Отмена</button>
+                                <button type="submit" class="btn btn-success" ng-disabled="!editTaskCtrl.TaskService.canSave" ng-click="editTaskCtrl.onSaveEdit()">Сохранить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<window-preview is-preview="editTaskCtrl.isPreview" task="editTaskCtrl.task"></window-preview>
+<load-image-to-editor></load-image-to-editor>
+<window></window>
+<pending is-loading="!editTaskCtrl.TaskService.isLoaded"></pending>
+

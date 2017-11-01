@@ -1,0 +1,41 @@
+<div class="eui-combobox-results-row scroll-container" custom-scroll ng-if="items && items.length">
+    <div ng-if="!columns" class="eui-combobox-result-item"
+         ng-repeat="item in items"
+         ng-click="comboboxCtrl.selectItem(item)">
+        {{ item[displayProperty] }}
+    </div>
+    <div ng-if="columns" id="datatable-fixed-header_wrapper" class="dataTables_wrapper task-list form-inline dt-bootstrap no-footer">
+        <table id="datatable-fixed-header" class="table table-striped dataTable no-footer" role="grid" aria-describedby="datatable-fixed-header_info">
+            <thead>
+                <tr role="row">
+                    <th ng-repeat="column in columns"
+                        tabindex="0" aria-controls="datatable-fixed-header" rowspan="1" colspan="1" aria-sort="ascending"
+                        ng-click="taskListCtrl.panel.onSortColumn(column,$event)"
+                        ng-style="{'width':column.width}">
+                        {{column.title}}
+                    </th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr role="row"
+                    ng-repeat="row in items track by $index" ng-click="comboboxCtrl.selectItem(row)">
+                    <td ng-repeat="col in columns " ng-switch="col.columnName">
+                        <span ng-class="row[col.columnName] | TaskTypeIconClass"
+                              ng-switch-when="TaskType"></span>
+                        <span ng-class="row[col.columnName] | AnswerTypeIconClass"
+                              ng-switch-when="AnswerType">
+                        </span>
+                        <span ng-switch-default="">{{row[col.columnName]}}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="eui-combobox-results-row" ng-if="!items || items.length === 0">
+    <div class="emptyText" ng-if="emptyText">
+        {{emptyText}}
+    </div>
+</div>
+

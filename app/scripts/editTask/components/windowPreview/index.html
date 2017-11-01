@@ -1,0 +1,95 @@
+﻿<div class="preview-window" id="preview">
+    <div ng-if="isPreview">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>
+                    Предварительный осмотр
+                </h3>
+            </div>
+            <div class="title_rigth">
+                <button class="btn btn-default source" ng-click="closePreviewWindow()">Закрыть</button>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Основная информация</h2>
+
+
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <br />
+                        <h3 ng-bind-html="task.Title"></h3>
+                        <b>Тип задачи:</b> <p>{{task.TaskType | TaskTypes}} </p>
+                        <b>Описание:</b> <p ta-bind="text" ng-model="task.Body" ta-readonly='disabled'></p>
+                        <b>Балл:</b> <p>{{task.Mark}}</p>
+                        <b>Тип ответа:</b> <p>{{task.AnswerType | AnswerType}}</p>
+                        </br>
+                        <div ng-if="task.AnswerType==1">
+                            <h4> Ответы: </h4>
+                            <div class="row" ng-repeat="answer in task.Options1Of4">
+                                <div class="col-md-6 col-sm-6 col-xs-12" ta-bind="text" ng-model="answer.Text" ta-readonly='disabled'></div>
+
+                                <div class="col-md-6 col-sm-6 col-xs-12" ng-if="answer.IsCorrect"><span class="label label-success">Верный</span></div>
+
+                            </div>
+
+                        </div>
+                        <div ng-if="task.AnswerType==2">
+                            <h4> Ответы: </h4>
+                            <div class="row" ng-repeat="answer in task.OptionsFewOf5">
+                                <div class="col-md-6 col-sm-6 col-xs-12" ta-bind="text" ng-model="answer.Text" ta-readonly='disabled'></div>
+
+                                <div class="col-md-6 col-sm-6 col-xs-12" ng-if="answer.IsCorrect"><span class="label label-success">Верный</span></div>
+
+                            </div>
+
+                        </div>
+                        <div ng-if="task.AnswerType==3">
+                            <h4> Ответы: </h4>
+                            <div class="row" ng-repeat="answer in task.Answers">
+                                <div class="col-md-6 col-sm-6 col-xs-12" ta-bind="text" ng-model="answer.Value" ta-readonly='disabled'></div>
+
+
+                            </div>
+                        </div>
+
+                        <div ng-if="task.AnswerType==4">
+                            <h4> Ответы: </h4>
+                            <div class="row" ng-repeat="answer in task.Options1Of5">
+                                <div class="col-md-6 col-sm-6 col-xs-12" ta-bind="text" ng-model="answer.Text" ta-readonly='disabled'></div>
+
+                                <div class="col-md-6 col-sm-6 col-xs-12" ng-if="answer.IsCorrect"><span class="label label-success">Верный</span></div>
+
+                            </div>
+
+                        </div>
+
+                        <div ng-if="task.Hints.length>0">
+                            <h4> Подсказки: </h4>
+                            <div class="row" ng-repeat="hint in task.Hints">
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12" ta-bind="text" ng-model="hint.Text" ta-readonly='disabled'>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <b>Штрафной балл:</b> <p>{{hint.Penalty}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
