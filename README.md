@@ -5,7 +5,6 @@
 * npm i
 * bower i
 * gulp run
-* http://localhost:9000
 
 ### Сборка ###
 * gulp build
